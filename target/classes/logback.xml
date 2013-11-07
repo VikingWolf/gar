@@ -1,0 +1,80 @@
+<configuration>
+	<!-- Appenders -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+	 	<encoder>
+			<pattern>%d{HH:mm:ss} [%-5level] %C{0}[%L]: %m%n</pattern>			
+		</encoder>
+	</appender>
+	
+	<appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+		<file>${catalina.home}/logs/domesticbook.log</file>
+		<param name="append" value="false"/>
+		<encoder>
+			<pattern>%d{HH:mm:ss} [%-5level] %C{0}[%L]: %m%n</pattern>
+		</encoder>
+	</appender>
+
+  	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+   	 	<resetJUL>true</resetJUL>
+  	</contextListener>
+
+	<!--  Class Application Loggers -->
+	<logger nane ="com.domestic.domesticbook.service.ResourceService" level="WARN" />
+	<logger nane ="com.domestic.domesticbook.controller.ResourceController" level="WARN" />
+
+	<!-- Package Application Loggers -->
+	<logger name="com.domestic.domesticbook" level="WARN" />
+	<logger name="com.domestic.domesticbook.api" level="WARN" />
+	<logger name="com.domestic.domesticbook.api.docs" level="WARN" />
+	<logger name="com.domestic.domesticbook.controller.transformer" level="WARN" />
+	<logger name="com.domestic.domesticbook.entity" level="WARN" />
+	<logger name="com.domestic.domesticbook.entity.dao.transformers" level="WARN" />
+	<logger name="com.domestic.domesticbook.security" level="WARN" />
+	<logger name="com.domestic.domesticbook.security.oauth2" level="WARN" />
+	<logger name="com.domestic.domesticbook.service" level="WARN" />		
+	<logger name="com.domestic.domesticbook.social" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.crawler" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.email" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.email.mailchimp" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.email.mandrill" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.file" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.file.imageProcessing" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.file.videoProcessor" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.rss" level="WARN" />	
+	<logger name="com.domestic.domesticbook.exception" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.email.mailchimp" level="WARN" />				
+	
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.aop" level="WARN" />
+	<logger name="org.springframework.beans" level="WARN" />
+	<logger name="org.springframework.context" level="WARN" />
+	<logger name="org.springframework.core" level="ERROR" />
+	<logger name="org.springframework.orm" level="WARN" />
+	<logger name="org.springframework.web" level="ERROR" />
+	<logger name="org.springframework.webmvc" level="ERROR" />
+	<logger name="org.springframework.integration" level="WARN" />
+	<logger name="org.springframework.social" level="WARN" />
+	<logger name="org.hibernate.hbm2ddl" level="WARN" />
+	<logger name="org.hibernate.engine.StatefulPersistenceContext" level = "ERROR" />
+	<logger name="org.hibernate.jdbc" level="WARN" />
+	<logger name="org.apache" level="WARN"/>
+	<logger name="org.springframework.security" level="WARN"/>	
+	<logger name="org.springframework.web.servlet.i18n" level="WARN"/>
+	<logger name="org.springframework.web.servlet.mvc" level="WARN"/>
+	<logger name="org.springsource.integration" level="WARN"/>
+	<logger name="org.springframework.integration.mail" level="ERROR"/>
+	<logger name="org.codehaus.jackson" level = "WARN" />
+	
+	<!-- Queries -->
+	<logger name="com.domestic.domesticbook.entity.dao.transformers.ListingTransformer" level="WARN" />
+	<logger name="com.domestic.domesticbook.entity.dao.hibernate.SpringHibernateDao" level="WARN" />	
+	<logger name="org.hibernate.SQL" level="WARN" />
+	<logger name="com.domestic.domesticbook.utils.CriteriaVisitor" level="WARN" />
+	
+	<!-- Root Logger watch -n5  'cat catalina.out | tail -5' -->
+	<root level="WARN">
+		<appender-ref ref="consoleAppender"/>
+		<appender-ref ref="fileAppender"/> 
+	</root>
+</configuration>
