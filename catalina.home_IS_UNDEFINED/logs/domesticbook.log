@@ -1,1 +1,3 @@
-18:19:31 [ERROR] Test$1[82]: Closing GTR Test...
+18:05:35 [ERROR] Game[288]: action=LEAD [cards=[Senator [id=150]], role=ARCHITECT]
+18:05:36 [ERROR] Game[288]: action=FOLLOW [cards=[Senator [id=149]], role=ARCHITECT]
+18:05:45 [ERROR] Game[288]: action=FOLLOW [cards=[ActionCard [id=81, material=CONCRETE, role=ARCHITECT, building=Despensa]], role=ARCHITECT]
