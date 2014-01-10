@@ -38,6 +38,9 @@ public class SiteCard {
 	@Override
 	public String toString() {
 		return "SiteCard [material=" + material + ", type=" + type.getName() + "]";
-	}
+	}	
 
+	public boolean isSameMaterial(Material material){
+		return this.material.equals(material);
+	}
 }

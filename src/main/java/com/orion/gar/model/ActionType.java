@@ -7,6 +7,7 @@ public enum ActionType {
 	FOLLOW,  
 	CHOOSE_CARD,
 	ROLE,
-	PASS;
+	PASS,
+	CHOOSE_SITE;
 
 }

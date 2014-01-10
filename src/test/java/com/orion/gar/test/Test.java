@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.orion.gar.model.Game;
 import com.orion.gar.model.GameAction;
+import com.orion.gar.model.PassAction;
 import com.orion.gar.model.Player;
 
 
@@ -63,7 +64,8 @@ public class Test {
 		test.setUp(3);
 		test.chooseFirstPlayer();
 		while (true){
-			test.runTurn();
+			test.actionSelection();
+			test.actionResolution();
 		}		
 	}
 
@@ -236,7 +238,7 @@ public class Test {
 		updatePlayersPane();
 	}
 	
-	public void runTurn(){
+	private void actionSelection(){
 		while (!game.isTurnEnded()){
 			this.clearSelection();
 			RequiredAction action = new RequiredAction(game.getCurrentPlayer().getName(), " escoge una opción de juego: ", game.getPlayerOptions());
@@ -251,15 +253,29 @@ public class Test {
 			updatePlayersPane();
 			game.nextPlayer();
 		}
+	}
+	
+	private void actionResolution(){
 		addLog("Fase de resolución de acciones (turno " + game.getTurnCounter() + ").\n");
 		for (Player player : game.getActivePlayers()){
-			RequiredAction action = new RequiredAction(player.getName(), " escoge efectuar una acción: ", game.getActionOptions(player));
+			this.clearSelection();
+			RequiredAction action = new RequiredAction(player.getName(), " escoge resolver una acción: ", game.getActionOptions(player));
 			while (action.getOptions().size()>1){
 				this.addNotification(action);
 				this.updateInputPane(action, player.getHand().toString());
-				action = new RequiredAction(player.getName(), " escoge efectuar una acción: ", game.getActionOptions(player));
+				action = new RequiredAction(player.getName(), " escoge resolver una acción: ", game.getActionOptions(player));
+				logger.error("selection="+this.selection);
+				pause();
+				if (selection.get(0).getClass().equals(PassAction.class)){
+					addLog(player.getName() + " pasa.\n");
+					break;
+				} else{
+					RequiredAction choose = new RequiredAction(player.getName(), " escoge una opción: ", game.getActionOptions(player, selection.get(0)));
+					this.addNotification(choose);
+					this.updateInputPane(choose, player.getHand().toString());
+					pause();
+				}
 			}
-			pause();
 		}
 		addLog("Turno " + game.getTurnCounter() + " finalizado.\n");
 		game.nextTurn();
@@ -335,6 +351,12 @@ class RequiredAction {
 		this.options = options;
 	}
 
+	@Override
+	public String toString() {
+		return "RequiredAction [subject=" + subject + ", actionInfo="
+				+ actionInfo + ", options=" + options + "]";
+	}
+	
 }
 
 class ChooseActionButtonListener implements ActionListener{

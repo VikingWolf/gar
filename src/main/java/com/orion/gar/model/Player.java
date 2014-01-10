@@ -197,6 +197,20 @@ public class Player {
 		return result;
 	}
 	
+	public boolean hasMaterialAtHand(final Material material){
+		boolean result = false;
+		for (Card card : this.hand){
+			if (card.getClass().equals(ActionCard.class)){
+				ActionCard actionCard = (ActionCard) card;
+				if (actionCard.getMaterial().equals(material)){
+					result = true;
+					break;
+				}
+			}
+		}
+		return result;		
+	}
+	
 	//MARK getters & setters
 	
 	public String getName() {
@@ -221,6 +235,30 @@ public class Player {
 
 	public void setPlayed(List<Card> played) {
 		this.played = played;
+	}
+
+	public List<ActionCard> getClients() {
+		return clients;
+	}
+
+	public void setClients(List<ActionCard> clients) {
+		this.clients = clients;
+	}
+
+	public List<ActionCard> getWarehouse() {
+		return warehouse;
+	}
+
+	public void setWarehouse(List<ActionCard> warehouse) {
+		this.warehouse = warehouse;
+	}
+
+	public List<ActionCard> getTreasure() {
+		return treasure;
+	}
+
+	public void setTreasure(List<ActionCard> treasure) {
+		this.treasure = treasure;
 	}
 
 	//MARK toString

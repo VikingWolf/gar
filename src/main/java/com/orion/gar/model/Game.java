@@ -23,7 +23,7 @@ public class Game {
 	private SiteDeck sites;
 
 	private CardSet<ActionCard> pool;
-	
+
 	private CardSet<Card> limbo;
 
 	private List<Senator> senators;
@@ -35,7 +35,7 @@ public class Game {
 	private int turnCounter = 0;
 
 	private Role leadingRole;
-	
+
 	public Game(int players){
 		super();		
 		players = Math.min(players, MAX_PLAYERS);
@@ -79,7 +79,7 @@ public class Game {
 		this.getCurrentPlayer().playCard(card);
 		limbo.add(card);
 	}
-	
+
 	public void chooseFirstPlayer(List<GameAction> options){
 		ActionCard initialCard = null;		
 		for (int i = 0; i < options.size(); i++){
@@ -158,7 +158,7 @@ public class Game {
 		}
 		return actions;
 	}
-	
+
 	private List<GameAction> findPairs(Role role, ActionType actionType){
 		List<GameAction> actions = new ArrayList<GameAction>();
 		List<ActionCard> candidates = getCurrentPlayer().getCardsMatching(role);
@@ -183,7 +183,7 @@ public class Game {
 			if (card.getClass().equals(Senator.class)){
 				actions.add(new PlayAction(ActionType.FOLLOW, this.getLeadingRole(), card));
 			} else if (card.getClass().equals(ActionCard.class)){
-			/* roles */
+				/* roles */
 				ActionCard actionCard = (ActionCard) card;
 				if (actionCard.getRole().equals(this.getLeadingRole())){
 					actions.add(new PlayAction(ActionType.FOLLOW, this.getLeadingRole(), card));					
@@ -194,7 +194,7 @@ public class Game {
 		actions.addAll(findPairs(this.getLeadingRole(), ActionType.FOLLOW));
 		return actions;
 	}
-	
+
 	private List<GameAction> leadingOptions(){
 		List<GameAction> actions = new ArrayList<GameAction>();
 		for (Card card : this.getCurrentPlayer().getHand()){
@@ -214,7 +214,7 @@ public class Game {
 				}
 			}			
 		}
-		
+
 		/* pairs */
 		for (Role role : Role.values()){
 			List<ActionCard> candidates = getCurrentPlayer().getCardsMatching(role);
@@ -223,12 +223,17 @@ public class Game {
 		}				
 		return actions;
 	}
-	
+
 	public List<GameAction> getActionOptions(Player player){
 		List<GameAction> actions = new ArrayList<GameAction>();
 		actions.add(new PassAction());
 		for (Card card : player.getPlayed()){
 			actions.add(new PlayAction(ActionType.ROLE, this.getLeadingRole(), card));
+		}
+		for (ActionCard client : player.getClients()){
+			if (client.getRole().equals(this.getLeadingRole())){
+				actions.add(new PlayAction(ActionType.ROLE, this.getLeadingRole(), client));
+			}
 		}
 		return actions;
 	}
@@ -248,6 +253,26 @@ public class Game {
 	public void nextTurn(){
 		setNextInitialPlayer();
 		this.turnCounter++;
+	}
+
+	public List<GameAction> getActionOptions(Player player, GameAction action){
+		List<GameAction> options = new ArrayList<GameAction>();
+		if (this.getLeadingRole().equals(Role.ARCHITECT)){
+			if (player.getWarehouse().size()>0){
+
+			}
+			for (Card card : player.getHand()){
+				if (card.getClass().equals(ActionCard.class)){
+					ActionCard actionCard = (ActionCard) card;
+					if (sites.isAvailable(actionCard.getMaterial(), SiteType.CITY)){
+						options.add(new PlayAction(ActionType.CHOOSE_CARD, this.getLeadingRole(), actionCard));						
+					}
+				}
+			}
+		} else if (this.getLeadingRole().equals(Role.CRAFTSMAN)){
+
+		}
+		return options;
 	}
 
 	/* status transitions */
@@ -353,7 +378,7 @@ public class Game {
 	public List<Player> getPlayers() {
 		return players;
 	}
-	
+
 	public List<Player> getActivePlayers(){
 		List<Player> orderedPlayers = new ArrayList<Player>();
 		for (int i = initialPlayer; i < players.size(); i++){

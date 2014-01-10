@@ -24,3 +24,8 @@ public enum Role {
 	}
 	
 }
+
+/* Rules notes
+Architect:	+ Begin building: take a site matching with the desired builded (from Hand)
+			+ Build: put a material matching the desired building (from Warehouse)
+*/

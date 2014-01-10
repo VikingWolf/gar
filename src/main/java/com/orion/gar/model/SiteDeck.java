@@ -1,12 +1,19 @@
 package com.orion.gar.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SiteDeck {
 
+	protected final static Logger logger = LoggerFactory.getLogger("SiteDeck.class");
+
 	private final static int SITES_BY_CATEGORY	= 6;
-	
+
 	private Map<SiteCard, Integer> sites;
 
 	public SiteDeck(int players){
@@ -14,7 +21,7 @@ public class SiteDeck {
 		sites = new HashMap<SiteCard, Integer>();
 		generateSiteDeck(players);
 	}
-	
+
 	private void generateSiteDeck(final int players){
 		for (Material material : Material.values()){
 			sites.put(new SiteCard(material, SiteType.CITY), SITES_BY_CATEGORY - players);
@@ -26,6 +33,24 @@ public class SiteDeck {
 		return null;
 	}
 
+	public boolean isAvailable(Material material, SiteType mode){
+		boolean result = false;
+		for (SiteCard site : sites.keySet()){
+			if (site.isSameMaterial(material)){
+				if (site.getType()==SiteType.CITY){
+					result = true;
+					break;
+				} else{
+					if (mode == SiteType.OUTSKIRTS){
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
 	@Override
 	public String toString() {
 		String result = "SiteDeck=\n";
@@ -34,5 +59,5 @@ public class SiteDeck {
 		}
 		return result;
 	}
-	
+
 }
